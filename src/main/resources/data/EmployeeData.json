@@ -1,0 +1,63 @@
+{
+"empList" : [{
+  "FirstName": "ELVA",
+  "LastName": "RECHKEMMER",
+  "Designation": "CEO",
+  "Salary": "154000",
+  "DateOfJoining": "1993-01-11",
+  "Address": "8417 Blue Spring St. Port Orange, FL 32127",
+  "Gender": "Female",
+  "Age": 62,
+  "MaritalStatus": "Unmarried",
+  "Interests": "Body Building,Illusion,Protesting,Taxidermy,TV watching,Cartooning,Skateboarding"
+},
+{
+  "FirstName": "JENNEFER",
+  "LastName": "WENIG",
+  "Designation": "President",
+  "Salary": "110000",
+  "DateOfJoining": "2013-02-07",
+  "Address": "16 Manor Station Court Huntsville, AL 35803",
+  "Gender": "Female",
+  "Age": 45,
+  "MaritalStatus": "Unmarried",
+  "Interests": "String Figures,Working on cars,Button Collecting,Surf Fishing"
+},
+{
+  "FirstName": "LAUREN",
+  "LastName": "RIDENS",
+  "Designation": "President",
+  "Salary": "123000",
+  "DateOfJoining": "2010-01-14",
+  "Address": "287 SE. Schoolhouse Street Clifton, NJ 07011",
+  "Gender": "Female",
+  "Age": 63,
+  "MaritalStatus": "Married",
+  "Interests": "Saltwater Aquariums"
+},
+{
+  "FirstName": "VANIA",
+  "LastName": "HAMMING",
+  "Designation": "President",
+  "Salary": "127000",
+  "DateOfJoining": "1970-01-05",
+  "Address": "871 Leatherwood Street North Canton, OH 44720",
+  "Gender": "Female",
+  "Age": 65,
+  "MaritalStatus": "Unmarried",
+  "Interests": "Golf,Weather Watcher,Fencing,Leathercrafting,Tutoring Children,Blogging,Building Dollhouses"
+},
+{
+  "FirstName": "GENARO",
+  "LastName": "HARDNETT",
+  "Designation": "Vice President",
+  "Salary": "108000",
+  "DateOfJoining": "2008-01-14",
+  "Address": "20 Sage Dr. El Paso, TX 79930",
+  "Gender": "Male",
+  "Age": 59,
+  "MaritalStatus": "Married",
+  "Interests": "Collecting Antiques,Hula Hooping,Airbrushing"
+}
+]
+}
