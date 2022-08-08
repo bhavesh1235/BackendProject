@@ -22,30 +22,13 @@ public class RabbitMqConfig {
     private String routingKey;
 
     @Bean
-    DirectExchange deadLetterExchange() {
-        return new DirectExchange("deadLetterExchange");
-    }
-
-    @Bean
     public DirectExchange directExchange(){
         return new DirectExchange(exchangeName);
     }
 
     @Bean
-    public Queue deadLetterQueue() {
-        return QueueBuilder.durable(queueName+".dlq").build();
-    }
-    @Bean
     public Queue queue(){
-        return QueueBuilder.durable(queueName)
-                .withArgument("x-dead-letter-exchange", "deadLetterExchange")
-                .withArgument("x-dead-letter-routing-key", routingKey+".dlq")
-                .build();
-    }
-
-    @Bean
-    Binding dlqBinding(Queue deadLetterQueue , DirectExchange deadLetterExchange) {
-        return BindingBuilder.bind(deadLetterQueue).to(deadLetterExchange).with(routingKey+".dlq");
+        return QueueBuilder.durable(queueName).build();
     }
 
     @Bean

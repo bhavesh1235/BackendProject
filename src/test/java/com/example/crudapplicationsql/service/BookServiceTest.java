@@ -3,17 +3,16 @@ package com.example.crudapplicationsql.service;
 import com.example.crudapplicationsql.entity.Book;
 import com.example.crudapplicationsql.repository.mysql.BookRepository;
 import com.example.crudapplicationsql.repository.redis.RedisCacheBookRepository;
+import com.example.crudapplicationsql.service.impl.BookServiceImplementation;
 import com.example.crudapplicationsql.util.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,16 +43,16 @@ class BookServiceTest {
         bookRating = 5;
     }
     @Test
-    public void fetchBookByIdWhenCacheIsEmpty(){
+    void fetchBookByIdWhenCacheIsEmpty(){
         when(redisCacheBookRepository.findById(expectedBook.getBookId())).thenReturn(null);
         when(bookRepository.findById(expectedBook.getBookId())).thenReturn(Optional.of(expectedBook));
         Book actualBook = bookService.fetchBookById(expectedBook.getBookId());
         assertNotNull(actualBook);
         assertEquals(expectedBook, actualBook);
-        log.info("Fetched Book From Databse : {}", actualBook);
+        log.info("Fetched Book From DB : {}", actualBook);
     }
     @Test
-    public void fetchBookByIdWhenCacheIsNotEmpty() {
+    void fetchBookByIdWhenCacheIsNotEmpty() {
         when(redisCacheBookRepository.findById(expectedBook.getBookId())).thenReturn(expectedBook);
         Book actualBook = bookService.fetchBookById(expectedBook.getBookId());
         assertNotNull(actualBook);
@@ -63,16 +62,16 @@ class BookServiceTest {
     }
 
     @Test
-    public void fetchAllBooksWhenCacheIsEmpty(){
+    void fetchAllBooksWhenCacheIsEmpty(){
         when(redisCacheBookRepository.findAll()).thenReturn(null);
         when(bookRepository.findAll()).thenReturn(expectedBookList);
         List<Book> actualBookList = bookService.fetchBookList();
         assertNotNull(actualBookList);
         assertEquals(expectedBookList, actualBookList);
-        log.info("Fetched Books List From Databse , {}", actualBookList);
+        log.info("Fetched Books List From DB , {}", actualBookList);
     }
     @Test
-    public void fetchAllBooksWhenCacheIsNotEmpty() {
+    void fetchAllBooksWhenCacheIsNotEmpty() {
         when(redisCacheBookRepository.findAll()).thenReturn(expectedBookList);
         List<Book> actualBookList = bookService.fetchBookList();
         assertNotNull(actualBookList);
@@ -80,16 +79,16 @@ class BookServiceTest {
         log.info("Fetched From Redis Cache");
     }
     @Test
-    public void fetchBooksListBasedOnRatingWhenCacheIsEmpty(){
+    void fetchBooksListBasedOnRatingWhenCacheIsEmpty(){
         when(redisCacheBookRepository.findByRating(bookRating)).thenReturn(null);
         when(bookRepository.findByBookRating(bookRating)).thenReturn(expectedBookList);
         List<Book> actualBookList = bookService.fetchBooksByRating(5);
         assertNotNull(actualBookList);
         assertEquals(expectedBookList, actualBookList);
-        log.info("Fetched Books List Based On rating From Databse : {}", actualBookList);
+        log.info("Fetched Books List Based On rating From DB : {}", actualBookList);
     }
     @Test
-    public void fetchBooksListBasedOnRatingWhenCacheIsNotEmpty() {
+    void fetchBooksListBasedOnRatingWhenCacheIsNotEmpty() {
         when(redisCacheBookRepository.findByRating(bookRating)).thenReturn(expectedBookList);
         List<Book> actualBookList = bookService.fetchBooksByRating(5);
         assertNotNull(actualBookList);
@@ -99,17 +98,17 @@ class BookServiceTest {
 
 
     @Test
-    public void deleteBook() {
-        String expected = "Book "+expectedBook.getBookId()+" deleted successfully";
+    void deleteBook() {
+        HttpStatus expected = HttpStatus.OK;
         when(bookRepository.findById(expectedBook.getBookId())).thenReturn(Optional.of(expectedBook));
         when(bookRepository.save(expectedBook)).thenReturn(expectedBook);
-        String actual = bookService.deleteBookById(expectedBook.getBookId());
+        HttpStatus actual = bookService.deleteBookById(expectedBook.getBookId());
         assertEquals(expected, actual);
         log.info("Book deleted successfully : {}", expectedBook);
     }
 
     @Test
-    public void saveBook(){
+    void saveBook(){
         when(bookRepository.save(expectedBook)).thenReturn(expectedBook);
         assertEquals(expectedBook, bookService.saveBook(expectedBook));
         log.info("Book Saved successfully : {}", expectedBook);

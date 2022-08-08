@@ -19,7 +19,7 @@ public class KafkaMessageListener {
     @Autowired
     private BookRepository bookRepository;
 
-//    @KafkaListener(groupId = "${consumer_group_id}", topics = "${kafka_topic}", containerFactory = "bookKafkaListenerContainerFactory")
+    @KafkaListener(groupId = "${consumer_group_id}", topics = "${kafka_topic}", containerFactory = "bookKafkaListenerContainerFactory")
     public void fetchBookDetailsFromTopic(String bookString)
     {
         ObjectMapper objectMapper = new ObjectMapper();

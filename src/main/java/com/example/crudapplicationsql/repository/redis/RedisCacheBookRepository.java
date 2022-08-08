@@ -19,28 +19,25 @@ public class RedisCacheBookRepository {
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final ValueOperations<String, Object> bookValueOperations;
-    private final ListOperations<String, Object> bookListOperation;
     private final ValueOperations<String, Object> bookListValueOperation;
 
     public RedisCacheBookRepository(RedisTemplate<String, Object> redisTemplate){
         this.bookValueOperations = redisTemplate.opsForValue();
-        this.bookListOperation = redisTemplate.opsForList();
         this.bookListValueOperation = redisTemplate.opsForValue();
         this.redisTemplate = redisTemplate;
     }
 
     public void saveBook(Book book){
           bookValueOperations.set(book.getBookId(), book, 10, TimeUnit.MINUTES);
-          log.info("Book Saved in Cache");
+          log.info("Book with Id {} Saved in Cache", book.getBookId());
     }
     public void saveBookListBasedOnRating(List<Book> bookList, Integer rating){
         bookListValueOperation.set(BOOK_LIST_RATING + rating.toString(), bookList, 5, TimeUnit.MINUTES);
-        log.info("BookList Based on Rating Saved in Cache");
+        log.info("Books with Rating {} Saved in Cache", rating);
     }
     public void saveBookList(List<Book> bookList){
-        bookListOperation.rightPushAll(BOOK_LIST+"oo", bookList);
         bookListValueOperation.set(BOOK_LIST, bookList, 5, TimeUnit.MINUTES);
-        log.info("All Books Saved To Cache");
+        log.info("BookList Saved To Cache");
     }
 
     public void update(Book book){
@@ -50,26 +47,26 @@ public class RedisCacheBookRepository {
     public List<Book> findAll(){
         if(Boolean.FALSE.equals(redisTemplate.hasKey(BOOK_LIST)))
             return null;
-        log.info("All Books Fetched From Cache");
+        log.info("BookList Fetched From Cache");
         return (List<Book>) bookListValueOperation.get(BOOK_LIST);
     }
 
     public Book findById(String bookId){
         if(Boolean.FALSE.equals(redisTemplate.hasKey(bookId)))
             return null;
-        log.info("Book Found in Cache");
+        log.info("Book with Id {} Fetched in Cache", bookId);
         return (Book) bookValueOperations.get(bookId);
     }
 
     public List<Book> findByRating(Integer rating) {
         if(Boolean.FALSE.equals(redisTemplate.hasKey(BOOK_LIST_RATING + rating.toString())))
             return null;
-        log.info("BookList Based on Rating Found in Cache");
+        log.info("BookList with Rating {} Fetched in Cache", rating);
         return (List<Book>) bookListValueOperation.get(BOOK_LIST_RATING + rating.toString());
     }
     public void delete(String bookId){
         bookValueOperations.setIfPresent(bookId, "", 1, TimeUnit.MILLISECONDS);
-        log.info("Book Deleted in Cache");
+        log.info("Book with Id {} Deleted from Cache", bookId);
     }
 }
 
